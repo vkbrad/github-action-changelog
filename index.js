@@ -2,7 +2,7 @@ const core = require("@actions/core");
 const { Octokit } = require("@octokit/core");
 const octokit = new Octokit({
   auth: core.getInput("githubToken"),
-  baseUrl: "https://github.expedia.biz/api/v3",
+  baseUrl: "https://github.com/api/v3",
 });
 
 (async () => {
