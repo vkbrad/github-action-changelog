@@ -3514,20 +3514,20 @@ var __webpack_exports__ = {};
 (() => {
 const core = __nccwpck_require__(186);
 const { Octokit } = __nccwpck_require__(762);
+console.log("logging token", core.getInput("githubToken"));
 const octokit = new Octokit({
   auth: core.getInput("githubToken"),
-  baseUrl: "https://github.com/api/v3",
+  baseUrl: "https://github.com/",
 });
 
 (async () => {
-  const path = core.getInput("path");
-  const name = core.getInput("name");
+  const org = core.getInput("org");
+  const repo = core.getInput("repo");
 
   const getChangelog = await octokit
-    .request("GET /repos/{owner}/{repo}/contents/{path}", {
-      owner: path,
-      repo: name,
-      path: "CHANGELOG.md",
+    .request("GET /repos/{org}/{repo}/branches", {
+      org,
+      repo,
     })
     .catch((error) => {
       core.setFailed(error.message);
