@@ -1,24 +1,42 @@
 const core = require("@actions/core");
 const { Octokit } = require("@octokit/core");
-console.log("logging token", core.getInput("githubToken"));
+const [org, repo] = process.env.GITHUB_REPOSITORY.split("/");
 const octokit = new Octokit({
-  auth: core.getInput("githubToken"),
-  baseUrl: "https://api.github.com",
+    auth: core.getInput('github-token');
 });
 
-(async () => {
-  const org = core.getInput("org");
-  const repo = core.getInput("repo");
+console.log('logging org and repo', org, repo)
 
-  const getChangelog = await octokit
-    .request("GET /repos/{org}/{repo}/branches", {
-      org,
-      repo,
-    })
-    .catch((error) => {
-      core.setFailed(error.message);
-      console.log(error.message);
+const graphqlCommitQuery = `
+query($org: String!, $repo: String!) {
+  repository(name: $repo, owner: $org) {
+    ... on Repository {
+      defaultBranchRef {
+        target {
+          ... on Commit {
+            history(first: 10) {
+              edges {
+                node {
+                  ... on Commit {
+                    message
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+const exec = async () => {
+    const result = await octokit.graphql(graphqlCommitQuery, {
+        org,
+        repo,
     });
 
-  console.log("changelog", getChangelog);
-})();
+    console.log('logging result', result);
+};
+
+exec();

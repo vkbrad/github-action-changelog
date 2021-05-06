@@ -1,18 +1,9 @@
 name: "Hello World"
 description: "Greet someone and record the time"
 inputs:
-  githubToken:
-    description: "Github token"
+  github-token:
+    description: "secrets.GITHUB_TOKEN"
     required: true
-  org:
-    decription: "Organization"
-    required: true
-  repo:
-    description: "Repository"
-    required: true
-outputs:
-  time: # id of output
-    description: "The time we greeted you"
 runs:
   using: "node12"
   main: "index.js"
