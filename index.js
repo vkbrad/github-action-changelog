@@ -2,10 +2,10 @@ const core = require("@actions/core");
 const { Octokit } = require("@octokit/core");
 const [org, repo] = process.env.GITHUB_REPOSITORY.split("/");
 const octokit = new Octokit({
-    auth: core.getInput('github-token');
+    auth: core.getInput("github-token"),
 });
 
-console.log('logging org and repo', org, repo)
+console.log("logging org and repo", org, repo);
 
 const graphqlCommitQuery = `
 query($org: String!, $repo: String!) {
@@ -36,7 +36,7 @@ const exec = async () => {
         repo,
     });
 
-    console.log('logging result', result);
+    console.log("logging result", result);
 };
 
 exec();
