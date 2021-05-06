@@ -3,7 +3,7 @@ const { Octokit } = require("@octokit/core");
 console.log("logging token", core.getInput("githubToken"));
 const octokit = new Octokit({
   auth: core.getInput("githubToken"),
-  baseUrl: "https://github.com/",
+  baseUrl: "https://api.github.com",
 });
 
 (async () => {
