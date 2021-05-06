@@ -36,7 +36,9 @@ const exec = async () => {
         repo,
     });
 
-    console.log("logging result", result);
+    const commits = result.repository.defaultBranchRef.target;
+
+    console.log("logging result", commits);
 };
 
 exec();
